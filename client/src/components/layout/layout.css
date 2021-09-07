@@ -1,0 +1,235 @@
+.App {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+}
+
+a,
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.nav-link {
+  color: #fff;
+  user-select: none;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: #7386d5;
+  color: #fff;
+  margin-left: -250px;
+  transition: all 0.5s;
+}
+
+.sidebar.is-open {
+  margin-left: 0;
+  transition: 0.5s;
+}
+
+.sidebar-header {
+  background: #6d7fcc;
+}
+
+.sidebar-header h3 {
+  color: #fff;
+  padding: 1em;
+}
+
+.sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+.menu-open {
+  background: #6d7fcc;
+}
+
+.nav-item:hover {
+  color: #7386d5;
+  background: #fff;
+}
+
+.items-menu {
+  color: #fff;
+  background: #6d7fcc;
+}
+
+li a.dropdown-toggle::after {
+  display: inline-flex;
+  position: relative;
+  left: 60%;
+  top: 10%;
+}
+
+.sidebar-header > span {
+  position: relative;
+  float: right;
+  margin: 0.5em;
+  font-size: 2rem;
+  cursor: pointer;
+  display: none;
+}
+.side-menu {
+  height: calc(100vh - 130px);
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+.content {
+  padding: 20px;
+  margin-left: 0;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+tbody tr:hover {
+  background-color: #dedede;
+}
+
+.pagination > * + * {
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 500px) {
+  body {
+    overflow: hidden;
+  }
+
+  .content.is-open {
+    margin-left: 100%;
+  }
+
+  .sidebar.is-open {
+    min-width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    transition: all 0.5s, height 0s;
+  }
+
+  .sidebar.is-open > .sidebar-header span {
+    display: unset;
+  }
+
+  li a.dropdown-toggle::after {
+    display: inline-block;
+    position: relative;
+    left: 68%;
+  }
+}
+
+/* ---------------------------------------------------
+    FORM STYLE
+----------------------------------------------------- */
+
+label {
+  font-weight: 800;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-row {
+  margin-right: 10px;
+}
+
+input, label {
+  display: block;
+}
+
+.bttn {
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 7px 15px;
+  background-color: transparent;
+}
+
+.submit-btn {
+  color: #7386d5;
+}
+
+.edit-btn {
+  color: #7386d5;
+}
+
+.delete-btn {
+  color: #4b507a
+}
+
+.pag-btn {
+  color: #6d7fcc;
+}
+
+.submit-btn:hover, .edit-btn:hover {
+  color: #3649eb;
+}
+
+.delete-btn:hover {
+  color: #ac41b0;
+}
+
+/* ---------------------------------------------------
+    AUTOSUGGEST STYLE
+----------------------------------------------------- */
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  min-width: 300px;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
+}
