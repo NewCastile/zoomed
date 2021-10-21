@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useMutation, useQueryClient } from "react-query"
 
-export function useEditMutation({ items }) {
+export default function useEditMutation(items) {
     const client = useQueryClient()
-    const mutation = useMutation(
+    return useMutation(
     async ({ items, editedItem, update }) => {
         const response = await axios.patch(`/api/${items}/${editedItem}`, update)
         const { data } = response
@@ -20,6 +20,4 @@ export function useEditMutation({ items }) {
         client.invalidateQueries(items)
     },
     })
-
-    return mutation
 }

@@ -1,11 +1,11 @@
 import axios from "axios"
 import { useMutation, useQueryClient } from "react-query"
 
-export function useAddMutation({ items }) {
+export default function useDeleteMutation(items) {
     const client = useQueryClient()
-    const mutation = useMutation(
-    async ({ items, newItem }) => {
-        const response = await axios.post(`/api/${items}`, newItem)
+    return useMutation(
+    async ({ items, itemId }) => {
+        const response = await axios.delete(`/api/${items}/${itemId}`)
         const { data } = response
         return data
     }, 
@@ -20,6 +20,4 @@ export function useAddMutation({ items }) {
       client.invalidateQueries(items)
     },
   })
-  
-  return mutation
 }

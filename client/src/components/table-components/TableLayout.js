@@ -1,5 +1,7 @@
 import { Input } from "reactstrap"
 import classNames from 'classnames';
+import EditForm from "../form-components/EditForm"
+import useStore from "../../custom-hooks/useStore";
 
 const rowStyles = { 
   borderTopWidth: "1px", 
@@ -13,12 +15,13 @@ const paginationStyles = {
   justifyContent: 'left',
 }
 
-export const BasicTable = ({
+export const TableLayout = ({
   getTableProps,
   getTableBodyProps,
   headerGroups,
   page,
   prepareRow,
+  visibleColumns,
   canPreviousPage,
   canNextPage,
   pageOptions,
@@ -28,14 +31,15 @@ export const BasicTable = ({
   previousPage,
   state: { pageIndex },
   }) => {
+    const { tableItems } = useStore()
     return (
       <>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} className={classNames(`${tableItems}-table`)}>
         <thead>
-          {headerGroups.map(headerGroup => (
+          {headerGroups.map((headerGroup) => (
             <tr className="theader" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, index) => (
-                <th key={index} {...column.getHeaderProps()} style={{padding: "20px 10px"}}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()} style={{padding: "20px 10px"}}>
                   {column.render('Header')}
                   {column.canFilter ? ( column.render('Filter') ) : null}
                 </th>
@@ -44,18 +48,28 @@ export const BasicTable = ({
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, index) => {
+          {page.map((row) => {
             prepareRow(row)
             return (
-              <tr key={index} style={ rowStyles } {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td style={{padding: "10px"}} {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
+              <>
+                <tr style={ rowStyles } {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return <td style={{padding: "10px"}} {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+                { row.isExpanded ? (
+                    <tr>
+                      <td style={{padding: "10px"}} colSpan={visibleColumns.length}>
+                        { <EditForm row={row} /> }
+                      </td>
+                    </tr>
+                ) : null }
+              </>
             )
           })}
         </tbody>
       </table>
+      <br />
       <div className="pagination" style={paginationStyles}>
         <button className={classNames('bttn', 'pag-btn')} onClick={() => gotoPage(0)} disabled={!canNextPage}>
           {'<<'}

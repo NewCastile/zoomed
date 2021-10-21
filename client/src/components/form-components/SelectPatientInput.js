@@ -4,7 +4,7 @@ import { useState } from "react"
 import Autosuggest from "react-autosuggest"
 import { useFormikContext } from "formik"
 
-export const SelectPatientInput = ({ initialValue = "" }) => {
+const SelectPatientInput = ({ initialValue = "" }) => {
     const [inputValue, setInputValue] = useState(initialValue)
     const [suggestions, setSuggestions] = useState([])
     const { setFieldValue } = useFormikContext()
@@ -61,3 +61,5 @@ export const SelectPatientInput = ({ initialValue = "" }) => {
             </Autosuggest>
     )
 }
+
+export default SelectPatientInput

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SideBar from "./components/layout/sidebar/Sidebar";
-import { Content } from "./components/layout/content/Content.js";
+import SideBar from "./components/layout/Sidebar";
+import { Content } from "./components/layout/Content";
 import "./components/layout/layout.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 

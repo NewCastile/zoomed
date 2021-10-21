@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useMemo } from 'react';
 import { useTable, usePagination, useFilters, useExpanded } from 'react-table';
 import { TableLayout } from './TableLayout';
 import { DefaultColumnFilter } from './filters/Filters';
-import { useStore } from '../Content';
 import { defineColumns } from './Columns';
 import classNames from 'classnames';
-import { BasicTable } from './BasicTable';
+import useStore from '../../custom-hooks/useStore';
 
 export const TableInstance = ({ tableData }) => {
   const { tableItems, tableActions } = useStore()
-  const tableColumns = defineColumns(tableItems)
+  const tableColumns = useMemo(() => defineColumns(tableItems), [tableItems])
+
+  const itemsRef = useRef(tableItems)
+  const actionsRef = useRef(tableActions)
 
   const columns = useMemo(
     () => tableColumns.concat(
@@ -20,25 +22,27 @@ export const TableInstance = ({ tableData }) => {
           accessor: 'actions',
           disableFilters: true,
           Cell: (props) => {
-            const id = props.row.original._id
+            const itemId = props.row.original._id
+            const remove = actionsRef.current.remove
+            const items = itemsRef.current
             return (
               <>
                 <button className={classNames("bttn", "delete-btn")}
                   onClick={ async () => {
                     try {
-                      await tableActions.remove({ items: tableItems, itemId: id })
+                      await remove.mutate({ items, itemId })
                     } catch (error) {
                       alert(`An error has ocurred: ${error}`)
                     }
                   } }> 
-                  { tableItems === "historials" ? "clear": "delete"}
+                  { items === "historials" ? "clear": "delete"}
                 </button>
               </>
             )
           }
         }
       )
-    , [tableActions, tableItems, tableColumns]
+    , [tableColumns]
   )
 
   const data = useMemo(() => tableData, [tableData])
@@ -57,11 +61,7 @@ export const TableInstance = ({ tableData }) => {
 
   return (
     <>
-    { 
-      tableItems === "historials" ? 
-      <BasicTable {...tableInstance}></BasicTable> :
       <TableLayout {...tableInstance} ></TableLayout>
-    }
     </>
   );
 }

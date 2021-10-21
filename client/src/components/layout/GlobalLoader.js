@@ -20,6 +20,9 @@ const rotateRule = css`
 const LoaderComponent = styled(ImSpinner2)`
   vertical-align: middle;
   animation: ${rotateRule}
+  font-size: 1.5rem;
+  transition: 0.1s ease;
+  pointer-events: none;
 `
 
 export default function GlobalLoader() {

@@ -9,6 +9,28 @@ router.get('/', async (req, res) => {
     return res.json(reports)
 } )
 
+router.get('/:id', async (req, res) => {
+    const { id : reportId } = req.params 
+    try {
+        const report = await Patient.findById(reportId)
+        if (!report) throw Error('Patient not found')
+        res.json(report)
+    } catch (error) {
+        res.json({ message: `Error while looking for report ${error.message}`, success: false })
+    }
+} )
+
+router.get('/search/:historialId', async (req, res) => {
+    const { historialId } = req.params 
+    try {
+        const reports = await Report.find({ historial: historialId }).populate("patient")
+        if (!reports) throw Error("Could'nt found any reports")
+        res.json(reports)
+    } catch (error) {
+        res.json({ message: `Error while looking for report ${error.message}`, success: false })
+    }
+} )
+
 router.post('/', async (req, res) => {
     const { 
         patientID, 

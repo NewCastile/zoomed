@@ -6,7 +6,7 @@ const Report = require('../../models/report')
 router.get('/', async (req, res) => {
     const historials = await Historial.find().populate("patient", { name: 1, specie: 1, birth: 1, _id: 0 })
     return res.json(historials)
-} )
+})
 
 router.delete('/:id', async(req, res) => {
     try {

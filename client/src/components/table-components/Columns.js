@@ -1,11 +1,18 @@
 import classNames from 'classnames'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { DateRangeColumnFilter, dateBetweenFilterFn } from "./filters/Filters.js" 
 
 const patientsTableColumns = [
     {
       Header: 'Name',
       accessor: 'name',
+      Cell: (props) => {
+          const name = props.row.values.name
+          return (
+            <Link to={`./patients/${props.row.values._id}`}>{ name }</Link>
+          )
+      }
     },
     {
       Header: 'Specie',
@@ -17,9 +24,9 @@ const patientsTableColumns = [
         Filter: DateRangeColumnFilter,
         filter: dateBetweenFilterFn,
         Cell: (props) => {
-            const birth = props.row.original.birth
+            const birth = props.row.values.birth
             return (
-            <div>{ birth }</div>
+            <div to>{ birth.slice(0, 10) }</div>
             )
         } 
     },
@@ -53,8 +60,9 @@ const historialsTableColumns = [
         Filter: DateRangeColumnFilter,
         filter: dateBetweenFilterFn,
         Cell: (props) => {
+            const historialPatient = props.row.original.patient
             return (
-                <div>{ props.row.original.patient.birth }</div>
+                <div>{ historialPatient.birth.slice(0, 10) }</div>
             )
         } 
     },
@@ -66,6 +74,21 @@ const historialsTableColumns = [
 
 const reportsTableColumns = [
     {
+        Header: 'Patient Name',
+        accessor: (row) => row.patient.name,
+        id: 'patientName',
+        Cell: (props) => {
+            const name = props.row.original.patient.name
+            return (
+              <Link to={`./patients/${props.row.original.patient._id}`}>{ name }</Link>
+            )
+        }
+    },
+    {
+        Header: 'Diagnosis',
+        accessor:'diagnosis'
+    },
+    {
         Header: 'Date',
         accessor:'createdDate',
         Filter: DateRangeColumnFilter,
@@ -73,22 +96,13 @@ const reportsTableColumns = [
         Cell: (props) => {
             const createdDate = props.row.original.createdDate
             return (
-            <div>{ createdDate }</div>
+            <div>{ createdDate.slice(0, 10) }</div>
             )
         } 
     },
     {
-        Header: 'Diagnosis',
-        accessor:'diagnosis'
-    },
-    {
         Header: 'ID',
         accessor: '_id',
-    },
-    {
-        Header: 'Patient Name',
-        accessor: (row) => row.patient.name,
-        id: 'patientName'
     },
     {
         Header: () => null,

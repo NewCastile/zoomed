@@ -8,6 +8,17 @@ router.get('/', async (req, res) => {
     return res.json(patients)
 } )
 
+router.get('/:id', async (req, res) => {
+    const { id : patientId } = req.params 
+    try {
+        const patient = await Patient.findById(patientId)
+        if (!patient) throw Error('Patient not found')
+        res.json(patient)
+    } catch (error) {
+        res.json({ message: `Error while looking for patient ${error.message}`, success: false })
+    }
+} )
+
 router.get('/search/:name', async (req, res) => {
     const { name : patientName } = req.params 
     const regx = new RegExp(patientName, 'i')

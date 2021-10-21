@@ -22,16 +22,12 @@ export function dateBetweenFilterFn(rows, id, filterValues) {
     let ed = filterValues[1] ? Date.parse(filterValues[1]) : undefined
 
     if (ed || sd) {
+      // eslint-disable-next-line array-callback-return
       return rows.filter(r => {
         var time = Date.parse(r.values[id])
-
-        if (ed && sd) {
-          return (time >= sd && time <= ed)
-        } else if (sd){
-          return (time >= sd)
-        } else if (ed){
-          return (time <= ed)
-        }
+        return ed && sd ? time >= sd && time <= ed : 
+        sd ? time >= sd : 
+        ed ? time <= ed : false
       })
     } else {
       return rows
@@ -56,6 +52,8 @@ export function DateRangeColumnFilter({
       <div
         style={{
           display: 'flex',
+          flexDirection: "row",
+          alignItems: "center"
         }}
       >
         <Input
